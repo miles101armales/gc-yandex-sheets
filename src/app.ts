@@ -10,6 +10,7 @@ import { UserController } from './users/users.controller';
 import { IConfigService } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/auth.middleware';
+import { SalesController } from './sales/sales.controller';
 
 @injectable()
 export class App {
@@ -20,6 +21,7 @@ export class App {
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
 		@inject(TYPES.UserController) private userController: UserController,
+		@inject(TYPES.SalesController) private salesController: SalesController,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
@@ -33,6 +35,7 @@ export class App {
 	}
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
+		this.app.use('/sales', this.salesController.router);
 	}
 	useExceptionFilters(): void {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
